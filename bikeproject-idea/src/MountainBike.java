@@ -25,6 +25,11 @@ public class MountainBike extends Bike implements MountainParts {
     @Override
     public void setType(String newValue) { type = newValue; }
 
+    @Override
+    public int getFrameSize() { return frameSize; }
+    @Override
+    public void setFrameSize(int value) { frameSize = value; }
+
     public void printDescription()
     {
         super.printDescription();

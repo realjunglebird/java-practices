@@ -6,4 +6,7 @@ public interface MountainParts {
 
     String getType();
     void setType(String newValue);
+
+    public int getFrameSize();
+    public void setFrameSize(int value);
 }
