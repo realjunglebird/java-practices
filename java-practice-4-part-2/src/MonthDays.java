@@ -17,7 +17,6 @@ public class MonthDays {
         Scanner scanner = new Scanner(System.in);
         int month = 0;
 
-        /* Ввод номера месяца */
         while (true) {
             System.out.print("Введите целое число от 1 до 12: ");
             try {
@@ -62,7 +61,6 @@ public class MonthDays {
         scanner.close();
     }
 
-    /** Проверка, является ли год високосным */
     public static boolean isLeapYear(int year) {
         return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
     }
