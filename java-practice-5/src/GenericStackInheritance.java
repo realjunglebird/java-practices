@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class GenericStackInheritance<E> extends ArrayList<E> {
+public class GenericStackInheritance<T> extends ArrayList<T> {
     public boolean isEmpty() {
         return super.isEmpty();
     }
@@ -9,21 +9,21 @@ public class GenericStackInheritance<E> extends ArrayList<E> {
         return size();
     }
 
-    public E peek() {
+    public T peek() {
         if (isEmpty()) {
             throw new RuntimeException("Stack is empty!");
         }
         return get(getSize() - 1);
     }
 
-    public E pop() {
+    public T pop() {
         if (isEmpty()) {
             throw new RuntimeException("Stack is empty!");
         }
         return remove(getSize() - 1);
     }
 
-    public void push(E o) {
+    public void push(T o) {
         add(o);
     }
 

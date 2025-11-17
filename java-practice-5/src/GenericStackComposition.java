@@ -1,10 +1,10 @@
-public class GenericStackComposition<E> {
+public class GenericStackComposition<T> {
     private static final int DEFAULT_CAPACITY = 10;
-    private E[] elements;
+    private T[] elements;
     private int size;
 
     public GenericStackComposition() {
-        elements = (E[]) new Object[DEFAULT_CAPACITY];
+        elements = (T[]) new Object[DEFAULT_CAPACITY];
         size = 0;
     }
 
@@ -16,32 +16,32 @@ public class GenericStackComposition<E> {
         return size;
     }
 
-    public E peek() {
+    public T peek() {
         if (isEmpty()) {
             throw new RuntimeException("Stack is empty!");
         }
         return elements[size - 1];
     }
 
-    public void push(E o) {
+    public void push(T o) {
         if (size == elements.length) {
             resize();
         }
         elements[size++] = o;
     }
 
-    public E pop() {
+    public T pop() {
         if (isEmpty()) {
             throw new RuntimeException("Stack is empty!");
         }
-        E o = elements[--size];
+        T o = elements[--size];
         elements[size] = null;
         return o;
     }
 
     private void resize() {
         int newCapacity = elements.length * 2;
-        E[] newArray = (E[]) new Object[newCapacity];
+        T[] newArray = (T[]) new Object[newCapacity];
         System.arraycopy(elements, 0, newArray, 0, size);
         elements = newArray;
     }
