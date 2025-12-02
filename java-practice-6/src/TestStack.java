@@ -1,6 +1,9 @@
 public class TestStack {
     public static void main(String[] args) {
-        StackOnQueues stack = new StackOnQueues();
+        StackOnQueue stack = new StackOnQueue();
+
+        System.out.println("Созданный пустой стек:");
+        System.out.println("Стек: " + stack.toString());
 
         stack.push(10);
         stack.push(20);
@@ -8,15 +11,16 @@ public class TestStack {
         System.out.println("После добавления 10 и 20:");
         System.out.println("Стек: " + stack.toString());
 
-        System.out.println("Вершина стека (top): " + stack.top());
+        System.out.println("Просмотр элемента на вершина стека: " + stack.top());
 
-        System.out.println("Удалённый элемент (pop): " + stack.pop());
+        System.out.println("Удаление элемента на вершине стека: " + stack.pop());
 
-        System.out.println("Стек пуст? " + stack.empty());
+        System.out.println("Пуст ли стек: " + stack.empty());
 
-        System.out.println("Все элементы стека: " + stack.toString());
+        System.out.println("Стек: " + stack.toString());
 
-        System.out.println("Удаляем последний элемент: " + stack.pop());
-        System.out.println("Стек пуст после удаления всех элементов? " + stack.empty());
+        System.out.println("Удаление оставшегося элемента: " + stack.pop());
+        System.out.println("Пуст ли стек: " + stack.empty());
+        System.out.println("Стек: " + stack.toString());
     }
 }
