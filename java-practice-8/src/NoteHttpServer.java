@@ -13,7 +13,8 @@ public class NoteHttpServer {
             while (true) {
                 try (Socket clientSocket = serverSocket.accept();
                      PrintWriter out = new PrintWriter(
-                             new OutputStreamWriter(clientSocket.getOutputStream(), StandardCharsets.UTF_8),
+                             new OutputStreamWriter(
+                                     clientSocket.getOutputStream(), StandardCharsets.UTF_8),
                              true);
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(clientSocket.getInputStream(),
@@ -38,8 +39,22 @@ public class NoteHttpServer {
 
                     String[] requestLines = request.toString().split("\n");
                     String method = requestLines[0].split(" ")[0];
-                    String path = requestLines[0].split(" ")[1];
+                    String fullPath = requestLines[0].split(" ")[1];
                     String response;
+
+                    String path = fullPath.split("\\?")[0];
+                    Map<String, String> queryParams = new HashMap<>();
+
+                    if (fullPath.contains("?")) {
+                        String queryString = fullPath.split("\\?")[1];
+                        String[] params = queryString.split("&");
+                        for (String param : params) {
+                            String[] keyValue = param.split("=");
+                            if (keyValue.length == 2) {
+                                queryParams.put(keyValue[0], keyValue[1]);
+                            }
+                        }
+                    }
 
                     if (method.equals("GET") && path.equals("/notes")) {
                         response = "HTTP/1.1 200 OK\r\n" +
@@ -81,6 +96,39 @@ public class NoteHttpServer {
                                        "Content-Type: text/html; charset=UTF-8\r\n" +
                                        "\r\n" +
                                        "<html><body><h1>No notes to remove</h1></body></html>";
+                        }
+                    } else if (method.equals("DELETE") && path.equals("/notes")) {
+                        if (queryParams.containsKey("index")) {
+                            try {
+                                int index = Integer.parseInt(queryParams.get("index"));
+                                if (index >= 0 && index < notes.size()) {
+                                    notes.remove(index);
+                                    response = "HTTP/1.1 200 OK\r\n" +
+                                               "Content-Type: text/html; charset=UTF-8\r\n" +
+                                               "\r\n" +
+                                               "<html><body><h1>Note at index " + index + " removed</h1>";
+                                } else if (notes.isEmpty()) {
+                                    response = "HTTP/1.1 404 Not Found\r\n" +
+                                               "Content-Type: text/html; charset=UTF-8\r\n" +
+                                               "\r\n" +
+                                               "<html><body><h1>No notes exist</h1></body></html>";
+                                } else {
+                                    response = "HTTP/1.1 404 Not Found\r\n" +
+                                               "Content-Type: text/html; charset=UTF-8\r\n" +
+                                               "\r\n" +
+                                               "<html><body><h1>Invalid index: " + index + "</h1></body></html>";
+                                }
+                            } catch (NumberFormatException e) {
+                                response = "HTTP/1.1 400 Bad Request\r\n" +
+                                        "Content-Type: text/html; charset=UTF-8\r\n" +
+                                        "\r\n" +
+                                        "<html><body><h1>Index must be a number</h1></body></html>";
+                            }
+                        } else {
+                            response = "HTTP/1.1 400 Bad Request\r\n" +
+                                       "Content-Type: text/html; charset=UTF-8\r\n" +
+                                       "\r\n" +
+                                       "<html><body><h1>index value not found</h1></body></html>";
                         }
                     } else {
                         response = "HTTP/1.1 404 Not Found\r\n" +
