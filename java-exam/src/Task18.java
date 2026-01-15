@@ -5,7 +5,18 @@ import java.util.Scanner;
 
 public class Task18 {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество игроков: ");
+        int playersAmount = scanner.nextInt();
+        scanner.nextLine();
 
+        DiceGame game = new DiceGame();
+
+        for (int i = 0; i < playersAmount; i++) {
+            game.addPlayer();
+        }
+
+        game.playGame();
     }
 }
 
